@@ -31,9 +31,8 @@ describe('starwars-names', () => {
     });
 
     test('should return an array of random items if passed a number', () => {
-
-    expect(starWars.all).toContain(starWars.random());
-     
+      var i = Math.floor((Math.random() * starWars.length)+1);
+     expect(starWars.all).toEqual(expect.arrayContaining(starWars.random(i)));     
     });
   });
 });
