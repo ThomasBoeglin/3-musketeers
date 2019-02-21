@@ -10,7 +10,7 @@ const cash = require('./cash.js');
 const config = new Conf();
 const argv = process.argv.slice(2);
 
-const {DEFAULT_TO_CURRENCIES} = require('./constants');
+const {DEFAULT_TO_CURRENCIES} = require('./constants');//js file where we can find the API adress and the array of currencies we want to use
 
 const cli = meow(`
 	Usage
@@ -24,10 +24,10 @@ const cli = meow(`
 `);
 
 if (argv.indexOf('--save') !== -1 || argv.indexOf('-s') !== -1) {
-	config.set('defaultFrom', argv[1] || config.get('defaultFrom', 'USD'));
-	config.set('defaultTo', (argv.length > 2) ? process.argv.slice(4) : config.get('defaultTo', DEFAULT_TO_CURRENCIES));
+	config.set('defaultFrom', argv[1] || config.get('defaultFrom', 'USD'));//We want to take the US dollar as the original currency to compare to
+	config.set('defaultTo', (argv.length > 2) ? process.argv.slice(4) : config.get('defaultTo', DEFAULT_TO_CURRENCIES));//We take the currencie arrays goal in the constants.js
 	console.log(chalk.green('Saved default currencies to ' + config.path));
-	process.exit(0);
+	process.exit(0); //save tu default setting of the currency goal in base
 }
 
 const command = {

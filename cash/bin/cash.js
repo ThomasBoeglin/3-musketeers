@@ -4,9 +4,9 @@ const got = require('got');
 const money = require('money');
 const chalk = require('chalk');
 const ora = require('ora');
-const currencies = require('../lib/currencies.json');
+const currencies = require('../lib/currencies.json'); //Json list where we can have acronyms of diferent currencies
 
-const {API} = require('./constants');
+const {API} = require('./constants'); //Get real time info on the world currencies
 
 const cash = async command => {
 	const {amount} = command;
@@ -20,19 +20,19 @@ const cash = async command => {
 		spinner: {
 			interval: 150,
 			frames: to
-		}
+		}//Add a loading effect in green in order to wait for the API response.
 	});
 
 	loading.start();
 
-	await got(API, {
+	await got(API, { //
 		json: true
 	}).then(response => {
-		money.base = response.body.base;
+		money.base = response.body.base; 
 		money.rates = response.body.rates;
 
 		to.forEach(item => {
-			if (currencies[item]) {
+			if (currencies[item]) {//Check if the currency exist in the json file
 				loading.succeed(`${chalk.green(money.convert(amount, {from, to: item}).toFixed(3))} ${`(${item})`} ${currencies[item]}`);
 			} else {
 				loading.warn(`${chalk.yellow(`The "${item}" currency not found `)}`);
@@ -46,7 +46,7 @@ const cash = async command => {
 		} else {
 			loading.fail(chalk.red(`Internal server error :(\n${error}`));
 		}
-		process.exit(1);
+		process.exit(1); //Error catching
 	});
 };
 
